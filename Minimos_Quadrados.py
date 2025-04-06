@@ -13,6 +13,7 @@
     Se possível uma representação gráfica dos pontos plotados (dispersão) e a reta de regressão
 '''
 
+import matplotlib.pyplot as plt
 from math import sqrt
 import sys
 
@@ -77,7 +78,30 @@ class MinQuadrados:
             else:
                 print(self.formatar(self.a + self.b * variavel))
                 break
+
+    def grafico(self):
+        # Plota os pontos de dispersão
+        plt.plot(self.valores_x, self.valores_y, 'go', label="Pontos de dispersão")
         
+        # Calcula os valores da reta de regressão
+        x_reta = [min(self.valores_x), max(self.valores_x)]  # Usa os extremos de X
+        y_reta = [self.a + self.b * x for x in x_reta]       # Calcula os valores correspondentes de Y
+        
+        # Plota a reta de regressão
+        plt.plot(x_reta, y_reta, 'r-', label="Reta de regressão")
+
+         # Adiciona linhas verticais conectando os pontos à reta
+        for x, y in zip(self.valores_x, self.valores_y):
+            y_na_reta = self.a + self.b * x  # Calcula o valor de Y na reta para o ponto X
+            plt.plot([x, x], [y, y_na_reta], 'b--')  # Linha azul tracejada conectando o ponto à reta
+        
+        # Configurações do gráfico
+        plt.xlabel("Eixo X")
+        plt.ylabel("Eixo Y")
+        plt.title("Reta de regressão linear de X para Y")
+        plt.legend()  # Adiciona a legenda
+        plt.show()
+
     def chama_metodos(self):
         try:
             self.medias()
@@ -85,6 +109,7 @@ class MinQuadrados:
             self.covariancia()
             self.coeficientes()
             self.sist_linear()
+            self.grafico()
         except ZeroDivisionError:
             print("\nDivisão por zero! Não será possível continuar, digite novos valores para x e y")
             sys.exit()
