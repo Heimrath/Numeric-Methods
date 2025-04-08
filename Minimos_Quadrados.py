@@ -18,10 +18,10 @@ from math import sqrt
 import sys
 
 class MinQuadrados:
-    N = 0
+    N = 0       # Variavel que indicará o tamanho dos conjuntos
 
     def __init__(self, valores_x, valores_y):
-        MinQuadrados.N = len(valores_x)
+        MinQuadrados.N = len(valores_x)         
         self.valores_x = valores_x
         self.valores_y = valores_y
         print(f"\nx = {self.valores_x}")
@@ -29,10 +29,12 @@ class MinQuadrados:
 
         self.chama_metodos()
 
-    def formatar(self, valor):
+    def formatar(self, valor): 
+        # Formata os valores para até 6 casas decimais se necessário
         return f"{valor:.6f}".rstrip('0').rstrip('.')
 
     def medias(self):
+        # Médias de X, Y e XY
         self.soma_x = sum(self.valores_x)
         self.soma_y = sum(self.valores_y)
         self.soma_xy = sum(x * y for x,y in zip(self.valores_x, self.valores_y))
@@ -46,8 +48,9 @@ class MinQuadrados:
         print(f"Média de xy = {self.formatar(self.media_xy)}")
 
     def desvio_padrao(self):
-        self.desviop_x = sqrt((sum((x - self.media_x)**2 for x in self.valores_x) / MinQuadrados.N))
-        self.desviop_y = sqrt((sum((y - self.media_y)**2 for y in self.valores_y) / MinQuadrados.N))
+
+        self.desviop_x = sqrt(sum((x - self.media_x)**2 for x in self.valores_x) / MinQuadrados.N)
+        self.desviop_y = sqrt(sum((y - self.media_y)**2 for y in self.valores_y) / MinQuadrados.N)
 
         print(f"\nDesvio padrão de x = {self.formatar(self.desviop_x)}")
         print(f"Desvio padrão de y = {self.formatar(self.desviop_y)}")
@@ -80,9 +83,6 @@ class MinQuadrados:
                 break
 
     def grafico(self):
-        # Plota os pontos de dispersão
-        plt.plot(self.valores_x, self.valores_y, 'go', label="Pontos de dispersão")
-        
         # Calcula os valores da reta de regressão
         x_reta = [min(self.valores_x), max(self.valores_x)]  # Usa os extremos de X
         y_reta = [self.a + self.b * x for x in x_reta]       # Calcula os valores correspondentes de Y
@@ -90,10 +90,13 @@ class MinQuadrados:
         # Plota a reta de regressão
         plt.plot(x_reta, y_reta, 'r-', label="Reta de regressão")
 
-         # Adiciona linhas verticais conectando os pontos à reta
+        # Adiciona linhas verticais conectando os pontos à reta
         for x, y in zip(self.valores_x, self.valores_y):
             y_na_reta = self.a + self.b * x  # Calcula o valor de Y na reta para o ponto X
             plt.plot([x, x], [y, y_na_reta], 'b--')  # Linha azul tracejada conectando o ponto à reta
+        
+        # Plota os pontos de dispersão
+        plt.plot(self.valores_x, self.valores_y, 'go', label="Pontos de dispersão")
         
         # Configurações do gráfico
         plt.xlabel("Eixo X")
@@ -121,20 +124,23 @@ class MinQuadrados:
 def main():
     while True:
         try:
-            entrada = input("\nDigite os valores de x separados por espaço: ")
+            # Receber os valores de x
+            entrada = input("\nDigite os valores de x separados por espaço: ")  
             numeros_x = list(map(float, entrada.split()))
 
+            # Receber os valores de y
             entrada = input("Digite os valores de y separados por espaço: ")
             numeros_y = list(map(float, entrada.split()))
-        except ValueError:
+        except ValueError:      # Tratamento para caso de caracteres 
             print("\n---> Insira números válidos para x e y! <---")
             continue
         
-        if len(numeros_x) == 0 or len(numeros_x) != len(numeros_y):
+        if len(numeros_x) == 0 or len(numeros_x) != len(numeros_y):     # Se um dos conjuntos forem igual a 0 ou tiverem tamanhos diferentes, pede novos valores
             print(f"\nVerifique os numeros inseridos!\nX possui: {len(numeros_x)} numeros\nY possui: {len(numeros_y)} numeros")
             continue
 
         MinQuadrados(numeros_x, numeros_y)  
+        break
          
         # 6 5 8 8 7 6 10 4 9 7
         # 8 7 7 10 5 8 10 6 8 6
