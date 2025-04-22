@@ -49,8 +49,8 @@ class MinQuadrados:
 
     def desvio_padrao(self):
 
-        self.desviop_x = sqrt(sum((x - self.media_x)**2 for x in self.valores_x) / MinQuadrados.N)
-        self.desviop_y = sqrt(sum((y - self.media_y)**2 for y in self.valores_y) / MinQuadrados.N)
+        self.desviop_x = sqrt((sum(x**2 for x in self.valores_x) / MinQuadrados.N) - self.media_x**2)
+        self.desviop_y = sqrt((sum(y**2 for y in self.valores_y) / MinQuadrados.N)  - self.media_y**2)
 
         print(f"\nDesvio padrão de x = {self.formatar(self.desviop_x)}")
         print(f"Desvio padrão de y = {self.formatar(self.desviop_y)}")
@@ -68,7 +68,7 @@ class MinQuadrados:
 
     def sist_linear(self):
         self.b = (MinQuadrados.N * self.soma_xy - self.soma_x * self.soma_y) / (MinQuadrados.N * sum(x**2 for x in self.valores_x) - self.soma_x * self.soma_x) 
-        self.a = (sum(self.valores_y) - sum(self.valores_x) * self.b) / MinQuadrados.N
+        self.a = (self.soma_y - self.soma_x * self.b) / MinQuadrados.N
 
         print(f"\nf(x) = {self.formatar(self.a)} + {self.formatar(self.b)}x")
 
@@ -142,9 +142,7 @@ def main():
         MinQuadrados(numeros_x, numeros_y)  
         break
          
-        # 6 5 8 8 7 6 10 4 9 7
-        # 8 7 7 10 5 8 10 6 8 6
 
-       
-main()
+if __name__ == "__main__":
+    main()
 
