@@ -31,7 +31,6 @@ class ZeroFuncao:
         a = self.a
         b = self.b
         erro_esp = self.erro_esp
-        erro = 1.1
         cont = 1
         while True:
             x0 = (a + b) / 2
@@ -43,7 +42,7 @@ class ZeroFuncao:
             if erro <= erro_esp:
                 break
 
-            print(f"a = {a}\nx0{cont} = {x0}\nb = {b}")
+            print(f"a = {a}\nx0{cont} = {x0}\nb = {b}\n|ε| <= {erro} > {erro_esp}")
 
             cont += 1
 
@@ -56,8 +55,8 @@ class ZeroFuncao:
                 a = x0
         
         print(f"O zero da função está em:\nx0{cont} = {x0}\nf({x0}) = {f_x0}")
+        erro = f"{erro:.6f}".rstrip('0').rstrip('.')
         print(f"|ε| <= {erro} < {erro_esp * 100}%")
-
 
 
 def main():
